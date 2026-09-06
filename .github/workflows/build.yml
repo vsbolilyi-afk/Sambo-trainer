@@ -12,10 +12,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Unzip project (if uploaded as SamboTrainer.zip)
+      - name: Unzip project (any .zip file in repo root)
         run: |
-          if [ -f SamboTrainer.zip ]; then
-            unzip -o SamboTrainer.zip -d .
+          zipfile=$(find . -maxdepth 1 -iname "*.zip" | head -n 1)
+          if [ -n "$zipfile" ]; then
+            echo "Found zip: $zipfile"
+            unzip -o "$zipfile" -d .
           fi
           ls -la
 
